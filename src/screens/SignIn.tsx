@@ -1,38 +1,51 @@
 import { ScrollView, Image, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
+
+import { useAuth } from "@hooks/useAuth";
 
 import LogoSvg from '@assets/logo.svg';
 import BackgroundImg from '@assets/background.png';
 
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
+import { AppError } from "@utils/AppError";
+import { showToastOrAlert } from "@utils/showToastOrAlert";
+import { useState } from "react";
 
-const FIELD_REQUIRED_STR = 'Campo obrigatório.';
-const signUpSchema = z.object({
-  email: z.string({ required_error: FIELD_REQUIRED_STR }).email('Digite um e-mail válido.'),
-  password: z.string({ required_error: FIELD_REQUIRED_STR }).min(6, 'A senha precisa ter pelo menos 6 caracteres.'),
-})
-
-type SignUpSchema = z.infer<typeof signUpSchema>;
+type FormData = {
+  email: string;
+  password: string;
+}
 
 export function SignIn() {
-  const { control, handleSubmit, formState: { errors } } = useForm<SignUpSchema>({
-    resolver: zodResolver(signUpSchema),
-  })
+  const [isLoading, setIsLoading] = useState(false)
+
+  const { signIn } = useAuth()
 
   const navigation = useNavigation<AuthNavigatorRoutesProps>()
+
+  const { control, handleSubmit, formState: { errors } } = useForm<FormData>()
 
   function handleNewAccount() {
     navigation.navigate('signUp')
   }
 
-  function handleSignIn(data: SignUpSchema) {
-    console.log(data)
+  async function handleSignIn({ email, password }: FormData) {
+    try {
+      setIsLoading(true)
+      await signIn(email, password)
+      
+    } catch (error) {
+      const isAppError = error instanceof AppError
+      const message = isAppError ? error.message : 'Não foi possível entrar. Tente novamente mais tarde.'
+
+      setIsLoading(false)
+
+      showToastOrAlert(message)
+    }
   }
 
   return (
@@ -62,14 +75,14 @@ export function SignIn() {
           <Controller
             control={control}
             name="email"
-            render={({ field: { onChange, value } }) => (
+            rules={{ required: 'Informe o e-mail.' }}
+            render={({ field: { onChange } }) => (
               <Input
                 placeholder="E-mail"
                 keyboardType="email-address"
-                autoCapitalize="none"
                 onChangeText={onChange}
-                value={value}
                 errorMessage={errors.email?.message}
+                autoCapitalize="none"
               />
             )}
           />
@@ -77,19 +90,18 @@ export function SignIn() {
           <Controller
             control={control}
             name="password"
-            render={({ field: { onChange, value } }) => (
+            rules={{ required: 'Informe a senha.' }}
+            render={({ field: { onChange } }) => (
               <Input
-                placeholder="Senha"
                 secureTextEntry
+                placeholder="Senha"
                 onChangeText={onChange}
-                value={value}
                 errorMessage={errors.password?.message}
               />
             )}
           />
 
-          <Button title="Acessar" onPress={handleSubmit(handleSignIn)} />
-
+          <Button title="Acessar" onPress={handleSubmit(handleSignIn)} isLoading={isLoading} />
         </View>
 
         <View className="items-center justify-center mt-24">

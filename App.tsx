@@ -1,11 +1,12 @@
+import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import {  View } from 'react-native';
-
 import {
   useFonts,
   Roboto_700Bold,
   Roboto_400Regular,
 } from "@expo-google-fonts/roboto"
+
+import { AuthContextProvider } from '@contexts/AuthContext';
 
 import { Loading } from "./src/components/Loading";
 import { Routes } from './src/routes';
@@ -18,12 +19,14 @@ export default function App() {
 
   return (
     <View className="flex-1 bg-gray-700">
-       <StatusBar
+      <StatusBar
         style="light"
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <Routes /> : <Loading />}
+      <AuthContextProvider>
+        {fontsLoaded ? <Routes /> : <Loading />}
+      </AuthContextProvider>
     </View>
   );
 }

@@ -10,6 +10,7 @@ import * as FileSystem from 'expo-file-system'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
+import { showToastOrAlert } from "@utils/showToastOrAlert";
 
 const PHOTO_SIZE = 148;
 
@@ -55,11 +56,7 @@ export function Profile() {
         const photoInfo = await FileSystem.getInfoAsync(photoSelected.assets[0].uri)
 
         if (photoInfo.exists && (photoInfo.size / 1024 / 1024) > 3) { // Converting to MB
-          if (Platform.OS === 'android') {
-            return ToastAndroid.show("Essa imagem é muito grande. Escolha uma de até 3 MB.", ToastAndroid.SHORT)
-          } else {
-            return Alert.alert("Essa imagem é muito grande. Escolha uma de até 3 MB.")
-          }
+          return showToastOrAlert("Essa imagem é muito grande. Escolha uma de até 3 MB.")
         }
 
         setUserPhoto(photoSelected.assets[0].uri)

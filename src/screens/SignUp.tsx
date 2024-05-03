@@ -1,14 +1,20 @@
-import { ScrollView, Image, Text, View } from "react-native";
+import { ScrollView, Image, Text, View, Alert, ToastAndroid, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod'
+
+import { api } from '@services/api'
 
 import LogoSvg from '@assets/logo.svg';
 import BackgroundImg from '@assets/background.png';
 
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
+import { AppError } from "@utils/AppError";
+import { showToastOrAlert } from "@utils/showToastOrAlert";
+import { useState } from "react";
+import { useAuth } from "@hooks/useAuth";
 
 const FIELD_REQUIRED_STR = 'Campo obrigatório.';
 const signUpSchema = z.object({
@@ -24,6 +30,9 @@ const signUpSchema = z.object({
 type SignUpSchema = z.infer<typeof signUpSchema>;
 
 export function SignUp() {
+  const [isLoading, setIsLoading] = useState(false)
+  const { signIn } = useAuth()
+
   const { control, handleSubmit, formState: { errors } } = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
   })
@@ -34,8 +43,21 @@ export function SignUp() {
     navigation.goBack()
   }
 
-  function handleSignUp(data: SignUpSchema) {
-    console.log(data)
+  async function handleSignUp({ name, email, password }: SignUpSchema) {
+    try {
+      setIsLoading(true)
+
+      await api.post('/users', { name, email, password})
+      await signIn(email, password)
+
+    } catch (error) {
+      const isAppError = error instanceof AppError
+      const message = isAppError ? error.message : 'Erro no servidor. Tente novamente mais tarde.'
+
+      if (isAppError) {
+        return showToastOrAlert(message)
+      }
+    }
   }
 
   return (
@@ -121,7 +143,7 @@ export function SignUp() {
           />
 
 
-          <Button title="Criar e acessar" onPress={handleSubmit(handleSignUp)} />
+          <Button title="Criar e acessar" onPress={handleSubmit(handleSignUp)} isLoading={isLoading} />
 
         </View>
 
