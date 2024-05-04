@@ -12,9 +12,9 @@ import { History } from '@screens/History'
 
 type AppRoutes = {
   home: undefined
+  exercise: { exerciseId: string }
   history: undefined
   profile: undefined
-  exercise: undefined
 }
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>

@@ -1,4 +1,4 @@
-import { Image, ImageProps } from 'react-native';
+import { Image, ImageProps, View } from 'react-native';
 
 type Props = ImageProps & {
   size: number;
@@ -6,11 +6,13 @@ type Props = ImageProps & {
 
 export function UserPhoto({ size, ...rest }: Props) {
   return (
-    <Image 
-      className='rounded-full'
-      width={size} 
-      height={size} 
-      {...rest} 
-    />
+    <View className='border rounded-full border-gray-600'>
+      <Image
+        className='rounded-full'
+        width={size}
+        height={size}
+        {...rest}
+      />
+    </View>
   );
 }

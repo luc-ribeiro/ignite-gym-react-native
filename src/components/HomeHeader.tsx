@@ -4,6 +4,7 @@ import { MaterialIcons as Icon } from '@expo/vector-icons';
 import { useAuth } from "@hooks/useAuth";
 
 import defaultUserPhotoImg from '@assets/userPhotoDefault.png';
+import { api } from "@services/api";
 
 export function HomeHeader() {
   const { user, signOut } = useAuth()
@@ -11,7 +12,11 @@ export function HomeHeader() {
   return (
     <View className="flex-row bg-gray-600 pt-16 px-8 pb-5 items-center">
       <UserPhoto
-        source={user.avatar ? { uri: user.avatar } : defaultUserPhotoImg }
+        source={
+          user.avatar
+            ? { uri: `${api.defaults.baseURL}/avatar/${user.avatar}` }
+            : defaultUserPhotoImg
+        }
         size={64}
         alt="Imagem do usuário"
         className='mr-4'
@@ -28,7 +33,7 @@ export function HomeHeader() {
       </View>
 
       <TouchableOpacity onPress={signOut}>
-        <Icon 
+        <Icon
           name="logout"
           color='#E1E1E6'
           size={28}

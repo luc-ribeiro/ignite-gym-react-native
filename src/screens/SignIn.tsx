@@ -12,8 +12,8 @@ import BackgroundImg from '@assets/background.png';
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { AppError } from "@utils/AppError";
-import { showToastOrAlert } from "@utils/showToastOrAlert";
 import { useState } from "react";
+import Toast from "react-native-toast-message";
 
 type FormData = {
   email: string;
@@ -44,7 +44,11 @@ export function SignIn() {
 
       setIsLoading(false)
 
-      showToastOrAlert(message)
+      Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: message
+      });
     }
   }
 

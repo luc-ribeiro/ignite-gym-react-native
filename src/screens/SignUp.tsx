@@ -1,4 +1,4 @@
-import { ScrollView, Image, Text, View, Alert, ToastAndroid, Platform } from "react-native";
+import { ScrollView, Image, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,9 +12,9 @@ import BackgroundImg from '@assets/background.png';
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { AppError } from "@utils/AppError";
-import { showToastOrAlert } from "@utils/showToastOrAlert";
 import { useState } from "react";
 import { useAuth } from "@hooks/useAuth";
+import Toast from "react-native-toast-message";
 
 const FIELD_REQUIRED_STR = 'Campo obrigatório.';
 const signUpSchema = z.object({
@@ -55,7 +55,11 @@ export function SignUp() {
       const message = isAppError ? error.message : 'Erro no servidor. Tente novamente mais tarde.'
 
       if (isAppError) {
-        return showToastOrAlert(message)
+        Toast.show({
+          type: 'error',
+          text1: 'Erro',
+          text2: message
+        });
       }
     }
   }
