@@ -2,31 +2,32 @@
   <img height="60" src="./src/assets/logo.svg"  />
 </div>
 
-## 📄 Projeto
-Aplicação de gerenciamento de treinos na academia, possuindo uma variedade de exercícios divididos em categorias para facilitar a seleção e o acesso. 
-Após a escolha de um exercício, o usuário recebe uma recomendação de quantas séries realizar. 
-Também é possível marcar os exercícios como realizados, armazenando-os em um histórico.
+<div align="right">
+    Clique <a href="https://github.com/luc-ribeiro/ignite-gym-react-native/blob/main/README-PTBR.md">aqui</a> para ver a versão em Português.
+</div>
 
-A aplicação inclui um sistema de cadastro de usuários com autenticação baseada em tokens, permitindo o gerenciamento de senha e avatar. 
-Todo o funcionamento da aplicação é suportado pelo Async Storage, garantindo que os dados inseridos pelo usuário permaneçam salvos mesmo após o fechamento da aplicação.
+## 📄 Project
+Gym training management application, featuring a variety of exercises divided into categories to facilitate selection and access. After choosing an exercise, the user receives a recommendation on how many sets to perform. Users can also mark exercises as completed, storing them in a history.
 
-## 📝 Conceitos
+The application includes a user registration system with token-based authentication, allowing password and avatar management. The entire application's functionality is supported by Async Storage, ensuring that user-entered data remains saved even after the application is closed.
 
-- **Tokens e Refresh Tokens**
-- **Rotas públicas e privadas**
-- **Estilização com NativeWind**
-- **Criação de formulários controlados com React Hook Form**
-- **Validação de formulários com Zod**
+## 📝 Concepts
+
+- **Tokens and Refresh Tokens**
+- **Public and Private Routes**
+- **Styling with NativeWind**
+- **Creation of controlled forms with React Hook Form**
+- **Form validation with Zod**
 - **Stack Navigation**
 - **Tab Navigation**
 - **AsyncStorage**
-- **ContextAPI para criação de um AuthContext**
-- **Consumo de Back-end com Axios**
-- **Manipulação de Axios Interceptors**
-- **Utilização do Expo Image Picker para acessar galeria do dispositivo e alterar o avatar do usuário**
-- **Autenticação JWT**
+- **ContextAPI for creating an AuthContext**
+- **Backend consumption with Axios**
+- **Manipulation of Axios Interceptors**
+- **Use of Expo Image Picker to access the device gallery and change the user's avatar**
+- **JWT Authentication**
 
-## 💻 Tecnologias
+## 💻 Technologies
 
 - **React Native**
 - **TypeScript**
@@ -42,29 +43,30 @@ Todo o funcionamento da aplicação é suportado pelo Async Storage, garantindo 
 ## 🔖 Layout
 ### [Ignite Gym - Figma](https://www.figma.com/file/op1o9A7xHpITbmVvnTTDVu/Ignite-Gym?type=design&node-id=47-273&mode=design)
 
-## 🚀 Executando o projeto
+## 🚀 Running the project
 
-Para utilizar a API do projeto, é necessário clonar o repositório abaixo.
+To use the project's API, you need to clone the API from the repository below.
 ```
 $ git clone https://github.com/orodrigogo/ignitegym-api.git
 
-// Execute o comando no diretório da API:
+// Run the command in the API directory:
 $ npm start
 
-// A API será executada na porta 3333
+// The API will run on port 3333
 ```
 
 ```bash
-1. Clone este repositório em sua máquina
+1. Clone this repository to your machine
 $ git clone https://github.com/luc-ribeiro/ignite-gym-react-native.git
 
-2. Instale as dependências
+2. Install dependencies
 $ npm i
 
-3. Crie um arquivo .env seguindo a estrutura do .env.example
+3. Create a .env file following the structure of .env.example
 
-4. Rode o projeto através do comando:
+4. Run the project with the command:
 $ npm start
 
-- Com o Expo Go aberto em seu dispositivo, escaneie o QR code no terminal
-OBS: É preciso ter o Expo Go instalado em seu dispositivo móvel
+- With Expo Go open on your device, scan the QR code in the terminal
+Note: Expo Go must be installed on your mobile device
+```
